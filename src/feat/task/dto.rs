@@ -1,4 +1,4 @@
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 use super::domain::Task;
 
@@ -15,4 +15,9 @@ impl TaskResponseDto {
             description: task.description,
         }
     }
+}
+
+#[derive(Deserialize)]
+pub struct TaskCreateRequestDto {
+    pub description: String,
 }
