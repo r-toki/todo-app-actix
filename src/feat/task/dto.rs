@@ -9,10 +9,10 @@ pub struct TaskResponseDto {
 }
 
 impl TaskResponseDto {
-    pub fn from(task: Task) -> TaskResponseDto {
+    pub fn from(task: &Task) -> TaskResponseDto {
         TaskResponseDto {
-            id: task.id,
-            description: task.description,
+            id: task.id.clone(),
+            description: task.description.clone(),
         }
     }
 }
