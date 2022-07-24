@@ -17,7 +17,7 @@ pub async fn index() -> impl Responder {
 
     let res: Vec<TaskResponseDto> = vec![task1, task2]
         .iter()
-        .map(|e| TaskResponseDto::from(e))
+        .map(|task| TaskResponseDto::from(task.clone()))
         .collect();
 
     HttpResponse::Ok().json(res)
@@ -30,5 +30,5 @@ pub async fn create(body: web::Json<TaskCreateRequestDto>) -> impl Responder {
         description: body.description.clone(),
     };
 
-    HttpResponse::Ok().json(TaskResponseDto::from(&task))
+    HttpResponse::Ok().json(TaskResponseDto::from(task))
 }
