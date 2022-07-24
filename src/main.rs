@@ -1,4 +1,4 @@
-mod controller;
+mod feat;
 
 use actix_web::{middleware::Logger, App, HttpServer};
 use std::env;
@@ -14,7 +14,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(move || {
         App::new()
             .wrap(Logger::default())
-            .service(controller::tasks::index)
+            .configure(feat::task::routes::init)
     })
     .bind(format!("{}:{}", host, port))?
     .run()
