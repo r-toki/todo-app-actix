@@ -1,0 +1,45 @@
+{
+  "db": "PostgreSQL",
+  "2eafaefe5cbc7421c4d8b526879f9705dea3d718065ad221deb174b73cfaa350": {
+    "describe": {
+      "columns": [
+        {
+          "name": "id",
+          "ordinal": 0,
+          "type_info": "Int8"
+        },
+        {
+          "name": "description",
+          "ordinal": 1,
+          "type_info": "Text"
+        },
+        {
+          "name": "done",
+          "ordinal": 2,
+          "type_info": "Bool"
+        }
+      ],
+      "nullable": [
+        false,
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": []
+      }
+    },
+    "query": "\nSELECT id, description, done\nFROM tasks\nORDER BY id            \n            "
+  },
+  "f3cd8b2c010f82cf54bd5fc1c33c0d8a9bc535877adc2ea642ccdaa9a4b94ccf": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "\nINSERT INTO tasks (description)\nVALUES ( $1 )          \n            "
+  }
+}

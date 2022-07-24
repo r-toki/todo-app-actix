@@ -1,34 +1,31 @@
 use actix_web::{get, post, web, HttpResponse, Responder};
+use serde::Deserialize;
+use sqlx::PgPool;
 
-use super::domain::Task;
-use super::dto::{TaskCreateRequestDto, TaskResponseDto};
+use super::model::{NewTask, Task};
 
 #[get("/tasks")]
-pub async fn index() -> impl Responder {
-    let task1 = Task {
-        id: "1".to_string(),
-        description: "Buy a new gaming laptop".to_string(),
-    };
-
-    let task2 = Task {
-        id: "2".to_string(),
-        description: "Create video for YouTube".to_string(),
-    };
-
-    let res: Vec<TaskResponseDto> = vec![task1, task2]
-        .iter()
-        .map(|task| TaskResponseDto::from(task.clone()))
-        .collect();
+pub async fn index(pool: web::Data<PgPool>) -> impl Responder {
+    let res = Task::all(&pool).await.unwrap();
 
     HttpResponse::Ok().json(res)
 }
 
+#[derive(Deserialize)]
+pub struct TaskCreateRequestDto {
+    description: String,
+}
+
 #[post("/tasks")]
-pub async fn create(body: web::Json<TaskCreateRequestDto>) -> impl Responder {
-    let task = Task {
-        id: "3".to_string(),
-        description: body.description.clone(),
+pub async fn create(
+    dto: web::Json<TaskCreateRequestDto>,
+    pool: web::Data<PgPool>,
+) -> impl Responder {
+    let new_task = NewTask {
+        description: dto.description.clone(),
     };
 
-    HttpResponse::Ok().json(TaskResponseDto::from(task))
+    Task::insert(new_task, &pool).await.unwrap();
+
+    HttpResponse::Ok()
 }

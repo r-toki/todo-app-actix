@@ -1,4 +1,3 @@
 mod controller;
-mod domain;
-mod dto;
+mod model;
 pub mod routes;
